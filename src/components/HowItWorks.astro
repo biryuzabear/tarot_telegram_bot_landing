@@ -1,19 +1,19 @@
 ---
 const steps = [
   {
-    number: "01",
+    number: "1",
     title: "Задайте вопрос",
     description: "Напишите текстом или отправьте голосовое сообщение. Бот понимает любые вопросы о жизни, отношениях, карьере.",
     icon: "💭",
   },
   {
-    number: "02",
+    number: "2",
     title: "Получите расклад",
-    description: "AI выберет карты и создаст красивую визуализацию расклада. Можно выбрать тип расклада: от простого на 3 карты до Кельтского креста.",
+    description: "Бот выберет карты и создаст красивую визуализацию расклада. Можно выбрать тип расклада: от простого на 3 карты до Кельтского креста.",
     icon: "🎴",
   },
   {
-    number: "03",
+    number: "3",
     title: "Читайте интерпретацию",
     description: "Получите глубокий персонализированный ответ с учётом вашего вопроса, позиций карт и их взаимосвязей.",
     icon: "✨",
@@ -48,7 +48,7 @@ const steps = [
             <div class="hidden md:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-primary-500/50 to-transparent -translate-x-1/2 z-0"></div>
           )}
 
-          <div class="relative bg-dark-800/50 border border-white/5 rounded-2xl p-8 hover:border-primary-500/30 transition-all hover:bg-dark-800/80 group-hover:shadow-xl group-hover:shadow-primary-500/5">
+          <div class="relative bg-dark-800/50 border border-white/5 rounded-2xl p-8 hover:border-primary-500/30 transition-all hover:bg-dark-800/80 group-hover:shadow-xl group-hover:shadow-primary-500/5 h-full flex flex-col">
             {/* Number badge */}
             <div class="absolute -top-4 left-8 px-3 py-1 bg-primary-600 rounded-full text-sm font-bold">
               {step.number}
