@@ -1,9 +1,9 @@
 ---
-// First 14 cards (Major Arcana 0-13)
-const heroCards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+// 8 cards - removed 3, 4, 5, 7, 8, 11
+const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+<section id="hero-section" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
   <!-- Background gradient -->
   <div class="absolute inset-0 bg-gradient-to-b from-primary-100 via-white to-white dark:from-primary-950/50 dark:via-dark-950 dark:to-dark-950"></div>
 
@@ -159,54 +159,60 @@ const heroCards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 </style>
 
 <script>
-  const container = document.getElementById('hero-cards');
+  const section = document.querySelector('#hero-section') as HTMLElement;
   const cards = document.querySelectorAll('.hero-card');
 
-  cards.forEach((card, cardIndex) => {
-    card.addEventListener('mouseenter', () => {
-      cards.forEach((otherCard, otherIndex) => {
-        const element = otherCard as HTMLElement;
-        const currentIndex = parseInt(element.dataset.index || '0');
-        const hoveredIndex = cardIndex;
+  function updateCardsOnScroll() {
+    if (!section) return;
 
-        // Calculate push direction
-        let pushAmount = 0;
-        if (currentIndex < hoveredIndex) {
-          // Card is to the left - push more left
-          pushAmount = -30;
-        } else if (currentIndex > hoveredIndex) {
-          // Card is to the right - push more right
-          pushAmount = 30;
-        }
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.offsetHeight;
+    const scrollY = window.scrollY;
 
-        // Apply transform
-        const rotation = element.style.getPropertyValue('--rotation');
-        const baseX = element.style.getPropertyValue('--translateX');
-        const baseY = element.style.getPropertyValue('--translateY');
+    // Calculate scroll progress (0 to 1)
+    // Start animating from top of section to bottom
+    const scrollProgress = Math.max(0, Math.min(1, (scrollY - sectionTop + window.innerHeight) / (sectionHeight + window.innerHeight)));
 
-        if (currentIndex === hoveredIndex) {
-          // Hovered card - lift up and straighten
-          element.style.transform = `translateX(calc(-50% + ${baseX})) translateY(-80px) rotate(0deg) scale(1.1)`;
-          element.style.zIndex = '1000';
-        } else {
-          // Other cards - push away
-          element.style.transform = `translateX(calc(-50% + ${baseX} + ${pushAmount}px)) translateY(calc(-50% + ${baseY})) rotate(${rotation})`;
-        }
-      });
+    cards.forEach((card, index) => {
+      const element = card as HTMLElement;
+      const rotation = element.style.getPropertyValue('--rotation');
+      const baseX = parseFloat(element.style.getPropertyValue('--translateX'));
+      const baseY = parseFloat(element.style.getPropertyValue('--translateY'));
+
+      // Split cards: first 4 go left, last 4 go right
+      const totalCards = cards.length;
+      const isLeftSide = index < totalCards / 2;
+
+      // Different speed for each card (closer to center = slower)
+      const distanceFromCenter = Math.abs(index - (totalCards - 1) / 2);
+      const speedMultiplier = 0.5 + (distanceFromCenter / (totalCards / 2)) * 0.8; // 0.5x to 1.3x speed
+
+      // Calculate horizontal offset based on scroll
+      const maxOffset = 350;
+      const scrollOffset = scrollProgress * maxOffset * speedMultiplier;
+      const direction = isLeftSide ? -1 : 1;
+
+      // Arc movement: cards go up in a parabolic curve
+      // Maximum height at middle of scroll progress
+      const arcHeight = 200 * speedMultiplier;
+      const verticalOffset = Math.sin(scrollProgress * Math.PI) * arcHeight;
+
+      // Calculate additional rotation (cards rotate more as they fly away)
+      const additionalRotation = scrollProgress * 20 * direction * speedMultiplier;
+      const newRotation = parseFloat(rotation) + additionalRotation;
+
+      // Apply transforms
+      element.style.transform = `
+        translateX(calc(-50% + ${baseX}px + ${scrollOffset * direction}px))
+        translateY(calc(-50% + ${baseY}px - ${verticalOffset}px))
+        rotate(${newRotation}deg)
+      `;
     });
+  }
 
-    card.addEventListener('mouseleave', () => {
-      // Reset all cards
-      cards.forEach((otherCard) => {
-        const element = otherCard as HTMLElement;
-        const rotation = element.style.getPropertyValue('--rotation');
-        const baseX = element.style.getPropertyValue('--translateX');
-        const baseY = element.style.getPropertyValue('--translateY');
-        const index = element.style.getPropertyValue('--index');
+  // Update on scroll
+  window.addEventListener('scroll', updateCardsOnScroll, { passive: true });
 
-        element.style.transform = `translateX(calc(-50% + ${baseX})) translateY(calc(-50% + ${baseY})) rotate(${rotation})`;
-        element.style.zIndex = `${10 + parseInt(index)}`;
-      });
-    });
-  });
+  // Initial update
+  updateCardsOnScroll();
 </script>
