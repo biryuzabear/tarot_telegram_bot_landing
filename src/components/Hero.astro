@@ -1,9 +1,9 @@
 ---
-// 8 cards - removed 3, 4, 5, 7, 8, 11
-const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
+// 8 cards - swapped positions: 0↔3, 1↔2, 4↔7, 5↔6
+const heroCards = [6, 2, 1, 0, 13, 10, 9, 12];
 ---
 
-<section id="hero-section" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+<section id="hero-section" class="relative min-h-[150vh] flex items-center justify-center overflow-hidden pt-20">
   <!-- Background gradient -->
   <div class="absolute inset-0 bg-gradient-to-b from-primary-100 via-white to-white dark:from-primary-950/50 dark:via-dark-950 dark:to-dark-950"></div>
 
@@ -16,7 +16,7 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-white/5 border border-primary-200 dark:border-white/10 rounded-full mb-8">
+    <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-white/5 border border-primary-200 dark:border-white/10 rounded-full mb-8 mt-8">
       <span class="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full animate-pulse"></span>
       <span class="text-sm text-primary-700 dark:text-dark-300">Работает в Telegram</span>
     </div>
@@ -61,7 +61,7 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
     </div>
 
     <!-- Animated cards spread -->
-    <div class="relative max-w-6xl mx-auto h-[350px] sm:h-[420px] md:h-[500px]" id="hero-cards">
+    <div class="relative max-w-6xl mx-auto h-[320px] sm:h-[420px] md:h-[500px]" id="hero-cards">
       {heroCards.map((cardNum, index) => {
         const totalCards = heroCards.length;
         const middleIndex = (totalCards - 1) / 2;
@@ -69,8 +69,10 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
 
         // Horizontal position - non-uniform spacing (quadratic)
         // Cards spread wider as they get further from center
-        const baseSpacing = 80;
-        const quadraticSpacing = Math.abs(offset) * Math.abs(offset) * 2;
+        // Responsive: tighter on mobile
+        const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+        const baseSpacing = isMobile ? 15 : 80;
+        const quadraticSpacing = Math.abs(offset) * Math.abs(offset) * (isMobile ? 0.8 : 2);
         const translateX = offset * (baseSpacing + quadraticSpacing / Math.abs(offset || 1));
 
         // Vertical position - normalized parabola
@@ -208,8 +210,12 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
     const scrollY = window.scrollY;
 
     // Calculate scroll progress (0 to 1)
-    // Start animating from top of section to bottom
-    const scrollProgress = Math.max(0, Math.min(1, (scrollY - sectionTop + window.innerHeight) / (sectionHeight + window.innerHeight)));
+    // Section is 150vh tall, animation spreads over the whole scroll
+    const rawProgress = (scrollY - sectionTop + window.innerHeight) / (sectionHeight + window.innerHeight);
+    const scrollProgress = Math.max(0, Math.min(1, rawProgress));
+
+    // Don't update if scroll hasn't started yet - keep initial CSS positions
+    if (scrollProgress < 0.01) return;
 
     cards.forEach((card, index) => {
       const element = card as HTMLElement;
@@ -228,7 +234,8 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
       const speedMultiplier = 0.5 + (distanceFromCenter / (totalCards / 2)) * 0.8; // 0.5x to 1.3x speed
 
       // Calculate horizontal offset based on scroll
-      const maxOffset = 350;
+      // Responsive: smaller offset on mobile
+      const maxOffset = window.innerWidth < 640 ? 120 : 350;
       const scrollOffset = scrollProgress * maxOffset * speedMultiplier;
 
       // Parabolic movement: cards fly UP along parabola

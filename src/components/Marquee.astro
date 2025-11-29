@@ -16,7 +16,7 @@ const allFeatures = [...features, ...features];
 
 <section class="py-6 bg-gradient-to-r from-primary-900/50 via-primary-800/50 to-primary-900/50 border-y border-white/5 overflow-hidden">
   <div class="relative">
-    <div class="flex animate-marquee whitespace-nowrap">
+    <div class="flex whitespace-nowrap" id="marquee-container">
       {allFeatures.map((feature) => (
         <div class="flex items-center gap-2 mx-8">
           <span class="text-2xl">{feature.icon}</span>
@@ -26,3 +26,25 @@ const allFeatures = [...features, ...features];
     </div>
   </div>
 </section>
+
+<script>
+  const marquee = document.getElementById('marquee-container');
+  if (marquee) {
+    let position = 0;
+    const speed = window.innerWidth < 640 ? 1.5 : 0.5; // pixels per frame
+
+    function animate() {
+      position -= speed;
+      const resetPoint = -(marquee.scrollWidth / 2);
+
+      if (position <= resetPoint) {
+        position = 0;
+      }
+
+      marquee.style.transform = `translate3d(${position}px, 0, 0)`;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+</script>

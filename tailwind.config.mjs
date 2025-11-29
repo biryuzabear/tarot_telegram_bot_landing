@@ -51,7 +51,7 @@ export default {
         display: ['Playfair Display', 'serif'],
       },
       animation: {
-        'marquee': 'marquee 30s linear infinite',
+        'marquee': 'marquee 10s linear infinite',
         'marquee-slow': 'marquee 60s linear infinite',
       },
       keyframes: {
