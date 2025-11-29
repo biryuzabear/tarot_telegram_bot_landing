@@ -64,19 +64,21 @@ const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/your_bot';
     </div>
 
     <!-- Animated cards spread -->
-    <div class="relative max-w-6xl mx-auto h-[320px] sm:h-[420px] md:h-[500px]" id="hero-cards">
+    <div class="relative max-w-6xl mx-auto h-[320px] sm:h-[420px] md:h-[500px] mt-6 md:mt-36" id="hero-cards">
       {heroCards.map((cardNum, index) => {
         const totalCards = heroCards.length;
         const middleIndex = (totalCards - 1) / 2;
         const offset = index - middleIndex;
 
-        // Horizontal position - non-uniform spacing (quadratic)
-        // Cards spread wider as they get further from center
-        // Responsive: tighter on mobile
-        const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-        const baseSpacing = isMobile ? 15 : 80;
-        const quadraticSpacing = Math.abs(offset) * Math.abs(offset) * (isMobile ? 0.8 : 2);
+        // Horizontal position - calculated for desktop, will override via CSS for mobile
+        const baseSpacing = 65;
+        const quadraticSpacing = Math.abs(offset) * Math.abs(offset) * 1.6;
         const translateX = offset * (baseSpacing + quadraticSpacing / Math.abs(offset || 1));
+
+        // Mobile values (will be set via CSS variables)
+        const mobileBaseSpacing = 8;
+        const mobileQuadraticSpacing = Math.abs(offset) * Math.abs(offset) * 0.4;
+        const mobileTranslateX = offset * (mobileBaseSpacing + mobileQuadraticSpacing / Math.abs(offset || 1));
 
         // Vertical position - normalized parabola
         const normalizedOffset = Math.abs(offset) / (totalCards / 2);
@@ -115,13 +117,13 @@ const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/your_bot';
 
         return (
           <div
-            class="hero-card absolute left-1/2 top-1/2 w-24 sm:w-32 md:w-36 lg:w-40 cursor-pointer"
+            class="hero-card absolute left-1/2 top-1/2 w-28 sm:w-32 md:w-44 lg:w-52 cursor-pointer"
             style={`
               --rotation: ${rotation}deg;
               --translateX: ${translateX}px;
+              --translateX-mobile: ${mobileTranslateX}px;
               --translateY: ${translateY}px;
               --index: ${index};
-              transform: translateX(calc(-50% + var(--translateX))) translateY(calc(-50% + var(--translateY))) rotate(var(--rotation));
               z-index: ${10 + (totalCards - 1 - Math.abs(offset * 2))};
               transition: none;
             `}
@@ -187,7 +189,7 @@ const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/your_bot';
   @keyframes dealCard {
     0% {
       opacity: 0;
-      transform: translateX(-50%) translateY(100%) rotate(0deg) scale(0.5);
+      transform: translateX(-50%) translateY(20%) rotate(0deg) scale(0.5);
     }
     100% {
       opacity: 1;
@@ -198,6 +200,14 @@ const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/your_bot';
   .hero-card {
     animation: dealCard 0.6s ease-out backwards;
     animation-delay: calc(var(--index) * 0.06s);
+    transform: translateX(calc(-50% + var(--translateX))) translateY(calc(-50% + var(--translateY))) rotate(var(--rotation));
+  }
+
+  /* Mobile: use closer spacing */
+  @media (max-width: 640px) {
+    .hero-card {
+      transform: translateX(calc(-50% + var(--translateX-mobile))) translateY(calc(-50% + var(--translateY))) rotate(var(--rotation));
+    }
   }
 </style>
 
@@ -223,7 +233,9 @@ const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/your_bot';
     cards.forEach((card, index) => {
       const element = card as HTMLElement;
       const rotation = element.style.getPropertyValue('--rotation');
-      const baseX = parseFloat(element.style.getPropertyValue('--translateX'));
+      // Use mobile or desktop translateX based on screen width
+      const isMobile = window.innerWidth < 640;
+      const baseX = parseFloat(element.style.getPropertyValue(isMobile ? '--translateX-mobile' : '--translateX'));
       const baseY = parseFloat(element.style.getPropertyValue('--translateY'));
 
       // Split cards: first 4 go left, last 4 go right
