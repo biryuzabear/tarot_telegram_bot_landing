@@ -66,9 +66,47 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
         const totalCards = heroCards.length;
         const middleIndex = (totalCards - 1) / 2;
         const offset = index - middleIndex;
-        const rotation = offset * 5;
-        const translateX = offset * 50;
-        const translateY = Math.abs(offset) * 5;
+
+        // Horizontal position - non-uniform spacing (quadratic)
+        // Cards spread wider as they get further from center
+        const baseSpacing = 80;
+        const quadraticSpacing = Math.abs(offset) * Math.abs(offset) * 2;
+        const translateX = offset * (baseSpacing + quadraticSpacing / Math.abs(offset || 1));
+
+        // Vertical position - normalized parabola
+        const normalizedOffset = Math.abs(offset) / (totalCards / 2);
+        const parabolicY = normalizedOffset * normalizedOffset;
+        const translateY = parabolicY * 8; // Max 8px at edges
+
+        // Rotation (fan effect) - edge cards EXACTLY 0°, center cards tilted
+        // Хардкод для каждой карты чтобы точно работало
+        let rotation;
+        switch(index) {
+          case 0: // Крайняя левая
+          case 7: // Крайняя правая
+            rotation = 0;
+            break;
+          case 1:
+            rotation = -6;
+            break;
+          case 6:
+            rotation = 6;
+            break;
+          case 2:
+            rotation = -10;
+            break;
+          case 5:
+            rotation = 10;
+            break;
+          case 3:
+            rotation = -13;
+            break;
+          case 4:
+            rotation = 13;
+            break;
+          default:
+            rotation = 0;
+        }
 
         return (
           <div
@@ -79,8 +117,8 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
               --translateY: ${translateY}px;
               --index: ${index};
               transform: translateX(calc(-50% + var(--translateX))) translateY(calc(-50% + var(--translateY))) rotate(var(--rotation));
-              z-index: ${10 + index};
-              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.1s;
+              z-index: ${10 + (totalCards - 1 - Math.abs(offset * 2))};
+              transition: none;
             `}
             data-index={index}
           >
@@ -182,24 +220,28 @@ const heroCards = [0, 1, 2, 6, 9, 10, 12, 13];
       // Split cards: first 4 go left, last 4 go right
       const totalCards = cards.length;
       const isLeftSide = index < totalCards / 2;
+      const direction = isLeftSide ? -1 : 1;
 
-      // Different speed for each card (closer to center = slower)
+      // Use absolute position from center for symmetry
+      // Cards 0&7, 1&6, 2&5, 3&4 should have same distance from center
       const distanceFromCenter = Math.abs(index - (totalCards - 1) / 2);
       const speedMultiplier = 0.5 + (distanceFromCenter / (totalCards / 2)) * 0.8; // 0.5x to 1.3x speed
 
       // Calculate horizontal offset based on scroll
       const maxOffset = 350;
       const scrollOffset = scrollProgress * maxOffset * speedMultiplier;
-      const direction = isLeftSide ? -1 : 1;
 
-      // Arc movement: cards go up in a parabolic curve
-      // Maximum height at middle of scroll progress
-      const arcHeight = 200 * speedMultiplier;
-      const verticalOffset = Math.sin(scrollProgress * Math.PI) * arcHeight;
+      // Parabolic movement: cards fly UP along parabola
+      // y = a*x² where x is the absolute horizontal distance
+      // Using flatter parabola with coefficient 0.15 (more compressed vertically)
+      const absoluteX = Math.abs(baseX + scrollOffset * direction);
+      const parabolicHeight = 0.15 * (absoluteX / 100) * (absoluteX / 100) * 100; // Scaled parabola
+      const verticalOffset = parabolicHeight;
 
-      // Calculate additional rotation (cards rotate more as they fly away)
-      const additionalRotation = scrollProgress * 20 * direction * speedMultiplier;
-      const newRotation = parseFloat(rotation) + additionalRotation;
+      // Rotation decreases to 0° as cards fly away
+      // Start with original rotation, gradually go to 0° based on scrollProgress
+      const baseRotation = parseFloat(rotation);
+      const newRotation = baseRotation * (1 - scrollProgress); // Уменьшается от baseRotation до 0°
 
       // Apply transforms
       element.style.transform = `
