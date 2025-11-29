@@ -1,0 +1,106 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<div id={id} class="legal-modal fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-dark-900 border border-white/10 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 border-b border-white/10">
+      <h2 class="font-display text-2xl font-bold text-white">{title}</h2>
+      <button class="close-modal w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-dark-400 hover:text-white transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 overflow-y-auto">
+      <div class="prose prose-invert max-w-none">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .legal-modal.active {
+    display: flex;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold text-white mt-6 mb-3;
+  }
+
+  .prose h4 {
+    @apply text-lg font-semibold text-dark-100 mt-4 mb-2;
+  }
+
+  .prose p {
+    @apply text-dark-300 mb-4 leading-relaxed;
+  }
+
+  .prose ul {
+    @apply list-disc list-inside text-dark-300 mb-4 space-y-2;
+  }
+
+  .prose li {
+    @apply ml-4;
+  }
+
+  .prose strong {
+    @apply text-white font-semibold;
+  }
+
+  .prose a {
+    @apply text-primary-400 hover:text-primary-300 underline;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Open modal
+    document.querySelectorAll('[data-modal]').forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        const modalId = trigger.getAttribute('data-modal');
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    // Close modal
+    document.querySelectorAll('.legal-modal').forEach(modal => {
+      modal.querySelector('.close-modal')?.addEventListener('click', () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      // Close on backdrop click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.legal-modal.active').forEach(modal => {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  });
+</script>
