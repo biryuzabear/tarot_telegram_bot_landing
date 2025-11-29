@@ -1,0 +1,28 @@
+---
+const features = [
+  { icon: "🤖", text: "AI интерпретация" },
+  { icon: "🎤", text: "Голосовые вопросы" },
+  { icon: "📸", text: "Анализ фото раскладов" },
+  { icon: "🎴", text: "Красивые визуализации" },
+  { icon: "📱", text: "Mini App для истории" },
+  { icon: "🔮", text: "Классическая колода Rider-Waite" },
+  { icon: "✨", text: "Персонализированные ответы" },
+  { icon: "🌙", text: "Разные стили интерпретации" },
+];
+
+// Duplicate for seamless loop
+const allFeatures = [...features, ...features];
+---
+
+<section class="py-6 bg-gradient-to-r from-primary-900/50 via-primary-800/50 to-primary-900/50 border-y border-white/5 overflow-hidden">
+  <div class="relative">
+    <div class="flex animate-marquee whitespace-nowrap">
+      {allFeatures.map((feature) => (
+        <div class="flex items-center gap-2 mx-8">
+          <span class="text-2xl">{feature.icon}</span>
+          <span class="text-white font-medium">{feature.text}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
