@@ -1,42 +1,43 @@
 ---
-
+// First 14 cards (Major Arcana 0-13)
+const heroCards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 ---
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
   <!-- Background gradient -->
-  <div class="absolute inset-0 bg-gradient-to-b from-primary-950/50 via-dark-950 to-dark-950"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-primary-100 via-white to-white dark:from-primary-950/50 dark:via-dark-950 dark:to-dark-950"></div>
 
   <!-- Decorative elements -->
-  <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-  <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl"></div>
+  <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-300/20 dark:bg-primary-500/10 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold-300/20 dark:bg-gold-500/10 rounded-full blur-3xl"></div>
 
-  <!-- Stars pattern -->
-  <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(2px 2px at 20px 30px, white, transparent), radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent), radial-gradient(1px 1px at 90px 40px, white, transparent), radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.6), transparent), radial-gradient(1px 1px at 160px 120px, white, transparent); background-size: 200px 150px;"></div>
+  <!-- Stars pattern (dark mode only) -->
+  <div class="absolute inset-0 opacity-0 dark:opacity-30" style="background-image: radial-gradient(2px 2px at 20px 30px, white, transparent), radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent), radial-gradient(1px 1px at 90px 40px, white, transparent), radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.6), transparent), radial-gradient(1px 1px at 160px 120px, white, transparent); background-size: 200px 150px;"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-8">
-      <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-      <span class="text-sm text-dark-300">Работает в Telegram</span>
+    <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-white/5 border border-primary-200 dark:border-white/10 rounded-full mb-8">
+      <span class="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full animate-pulse"></span>
+      <span class="text-sm text-primary-700 dark:text-dark-300">Работает в Telegram</span>
     </div>
 
     <!-- Main heading -->
     <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-      <span class="text-white">Таро расклады</span>
+      <span class="text-dark-900 dark:text-white">Таро расклады</span>
       <br />
-      <span class="bg-gradient-to-r from-primary-400 via-primary-300 to-gold-400 bg-clip-text text-transparent">
+      <span class="bg-gradient-to-r from-primary-600 via-primary-500 to-gold-500 dark:from-primary-400 dark:via-primary-300 dark:to-gold-400 bg-clip-text text-transparent">
         с AI интерпретацией
       </span>
     </h1>
 
     <!-- Subtitle -->
-    <p class="text-lg sm:text-xl text-dark-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+    <p class="text-lg sm:text-xl text-dark-600 dark:text-dark-300 max-w-2xl mx-auto mb-10 leading-relaxed">
       Задайте вопрос голосом или текстом, получите красивый расклад
       и глубокую персонализированную интерпретацию от искусственного интеллекта
     </p>
 
     <!-- CTA Buttons -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
       <a
         href="https://t.me/your_bot"
         target="_blank"
@@ -53,31 +54,50 @@
 
       <a
         href="#how-it-works"
-        class="inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-full font-semibold transition-all"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-white dark:bg-white/5 hover:bg-primary-50 dark:hover:bg-white/10 text-dark-800 dark:text-white border border-dark-200 dark:border-white/10 rounded-full font-semibold transition-all"
       >
         Как это работает
       </a>
     </div>
 
-    <!-- Hero image placeholder -->
-    <div class="relative max-w-4xl mx-auto">
-      <div class="aspect-[16/10] rounded-2xl bg-gradient-to-br from-dark-800 to-dark-900 border border-white/10 overflow-hidden shadow-2xl">
-        <!-- Placeholder for screenshot -->
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="text-center">
-            <div class="text-6xl mb-4">🔮</div>
-            <p class="text-dark-400 text-sm">Скриншот бота</p>
-          </div>
-        </div>
-      </div>
+    <!-- Animated cards spread -->
+    <div class="relative max-w-6xl mx-auto h-[350px] sm:h-[420px] md:h-[500px]" id="hero-cards">
+      {heroCards.map((cardNum, index) => {
+        const totalCards = heroCards.length;
+        const middleIndex = (totalCards - 1) / 2;
+        const offset = index - middleIndex;
+        const rotation = offset * 5;
+        const translateX = offset * 50;
+        const translateY = Math.abs(offset) * 5;
 
-      <!-- Floating cards decoration -->
-      <div class="absolute -left-8 top-1/4 w-20 h-32 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl rotate-[-15deg] shadow-xl border border-primary-500/30 hidden lg:block">
-        <div class="absolute inset-2 border border-gold-400/30 rounded-lg"></div>
-      </div>
-      <div class="absolute -right-8 top-1/3 w-20 h-32 bg-gradient-to-br from-primary-700 to-primary-900 rounded-xl rotate-[15deg] shadow-xl border border-primary-500/30 hidden lg:block">
-        <div class="absolute inset-2 border border-gold-400/30 rounded-lg"></div>
-      </div>
+        return (
+          <div
+            class="hero-card absolute left-1/2 top-1/2 w-24 sm:w-32 md:w-36 lg:w-40 cursor-pointer"
+            style={`
+              --rotation: ${rotation}deg;
+              --translateX: ${translateX}px;
+              --translateY: ${translateY}px;
+              --index: ${index};
+              transform: translateX(calc(-50% + var(--translateX))) translateY(calc(-50% + var(--translateY))) rotate(var(--rotation));
+              z-index: ${10 + index};
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.1s;
+            `}
+            data-index={index}
+          >
+            <!-- Card with frame -->
+            <div class="card-frame relative rounded-lg bg-gradient-to-br from-gold-300 via-gold-200 to-gold-300 dark:from-gold-600 dark:via-gold-500 dark:to-gold-600 p-[3px] transition-shadow duration-300">
+              <div class="rounded-[5px] overflow-hidden">
+                <img
+                  src={`/cards/${cardNum}.webp`}
+                  alt={`Tarot card`}
+                  class="block w-full h-auto"
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   </div>
 
@@ -88,3 +108,105 @@
     </svg>
   </div>
 </section>
+
+<style>
+  .card-frame {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 10px 20px -5px rgba(0, 0, 0, 0.2),
+      0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  :global(.dark) .card-frame {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 10px 20px -5px rgba(0, 0, 0, 0.4),
+      0 25px 50px -12px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(147, 51, 234, 0.1);
+  }
+
+  .hero-card:hover .card-frame {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.2),
+      0 20px 40px -10px rgba(0, 0, 0, 0.3),
+      0 40px 60px -20px rgba(0, 0, 0, 0.35);
+  }
+
+  :global(.dark) .hero-card:hover .card-frame {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.4),
+      0 20px 40px -10px rgba(0, 0, 0, 0.5),
+      0 40px 60px -20px rgba(0, 0, 0, 0.6),
+      0 0 50px rgba(147, 51, 234, 0.2);
+  }
+
+  /* Deal animation */
+  @keyframes dealCard {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(100%) rotate(0deg) scale(0.5);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(calc(-50% + var(--translateX))) translateY(calc(-50% + var(--translateY))) rotate(var(--rotation));
+    }
+  }
+
+  .hero-card {
+    animation: dealCard 0.6s ease-out backwards;
+    animation-delay: calc(var(--index) * 0.06s);
+  }
+</style>
+
+<script>
+  const container = document.getElementById('hero-cards');
+  const cards = document.querySelectorAll('.hero-card');
+
+  cards.forEach((card, cardIndex) => {
+    card.addEventListener('mouseenter', () => {
+      cards.forEach((otherCard, otherIndex) => {
+        const element = otherCard as HTMLElement;
+        const currentIndex = parseInt(element.dataset.index || '0');
+        const hoveredIndex = cardIndex;
+
+        // Calculate push direction
+        let pushAmount = 0;
+        if (currentIndex < hoveredIndex) {
+          // Card is to the left - push more left
+          pushAmount = -30;
+        } else if (currentIndex > hoveredIndex) {
+          // Card is to the right - push more right
+          pushAmount = 30;
+        }
+
+        // Apply transform
+        const rotation = element.style.getPropertyValue('--rotation');
+        const baseX = element.style.getPropertyValue('--translateX');
+        const baseY = element.style.getPropertyValue('--translateY');
+
+        if (currentIndex === hoveredIndex) {
+          // Hovered card - lift up and straighten
+          element.style.transform = `translateX(calc(-50% + ${baseX})) translateY(-80px) rotate(0deg) scale(1.1)`;
+          element.style.zIndex = '1000';
+        } else {
+          // Other cards - push away
+          element.style.transform = `translateX(calc(-50% + ${baseX} + ${pushAmount}px)) translateY(calc(-50% + ${baseY})) rotate(${rotation})`;
+        }
+      });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      // Reset all cards
+      cards.forEach((otherCard) => {
+        const element = otherCard as HTMLElement;
+        const rotation = element.style.getPropertyValue('--rotation');
+        const baseX = element.style.getPropertyValue('--translateX');
+        const baseY = element.style.getPropertyValue('--translateY');
+        const index = element.style.getPropertyValue('--index');
+
+        element.style.transform = `translateX(calc(-50% + ${baseX})) translateY(calc(-50% + ${baseY})) rotate(${rotation})`;
+        element.style.zIndex = `${10 + parseInt(index)}`;
+      });
+    });
+  });
+</script>

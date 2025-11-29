@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "AI-powered tarot readings in Telegram. Get personalized card interpretations, voice questions, and beautiful spread visualizations." } = Astro.props;
+const { title, description = "AI расклады Таро в Telegram. Персонализированные интерпретации карт, голосовые вопросы и красивые визуализации раскладов." } = Astro.props;
 ---
 
 <!doctype html>
@@ -27,8 +27,22 @@ const { title, description = "AI-powered tarot readings in Telegram. Get persona
 
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Theme initialization (prevent flash) -->
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-dark-950 text-white font-sans antialiased">
+  <body class="bg-white dark:bg-dark-950 text-dark-900 dark:text-white font-sans antialiased transition-colors duration-300">
     <slot />
   </body>
 </html>
@@ -43,21 +57,34 @@ const { title, description = "AI-powered tarot readings in Telegram. Get persona
     min-height: 100vh;
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar - light mode */
   ::-webkit-scrollbar {
     width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #0f172a;
+    background: #f1f5f9;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #6b21a8;
+    background: #9333ea;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
+    background: #7e22ce;
+  }
+
+  /* Custom scrollbar - dark mode */
+  .dark ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #6b21a8;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
     background: #7e22ce;
   }
 </style>

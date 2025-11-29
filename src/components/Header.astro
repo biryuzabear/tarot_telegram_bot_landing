@@ -8,7 +8,7 @@ const navItems = [
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-dark-950/80 backdrop-blur-lg border-b border-white/5">
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark-950/80 backdrop-blur-lg border-b border-dark-200 dark:border-white/5 transition-colors">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo -->
@@ -16,7 +16,7 @@ const navItems = [
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
           <span class="text-xl">🔮</span>
         </div>
-        <span class="font-display text-xl font-semibold text-white group-hover:text-primary-300 transition-colors">
+        <span class="font-display text-xl font-semibold text-dark-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
           Tarot Bot
         </span>
       </a>
@@ -26,45 +26,64 @@ const navItems = [
         {navItems.map((item) => (
           <a
             href={item.href}
-            class="text-dark-300 hover:text-white transition-colors text-sm font-medium"
+            class="text-dark-600 dark:text-dark-300 hover:text-dark-900 dark:hover:text-white transition-colors text-sm font-medium"
           >
             {item.label}
           </a>
         ))}
       </nav>
 
-      <!-- CTA Button -->
-      <a
-        href="https://t.me/your_bot"
-        target="_blank"
-        class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-500 text-white rounded-full font-medium text-sm transition-all hover:shadow-lg hover:shadow-primary-500/25"
-      >
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-        </svg>
-        Открыть бота
-      </a>
+      <!-- Right side: Theme toggle + CTA -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button
+          id="theme-toggle"
+          class="p-2 rounded-lg bg-dark-100 dark:bg-white/5 hover:bg-dark-200 dark:hover:bg-white/10 text-dark-600 dark:text-dark-300 transition-colors"
+          aria-label="Переключить тему"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
 
-      <!-- Mobile Menu Button -->
-      <button
-        id="mobile-menu-btn"
-        class="md:hidden p-2 text-dark-300 hover:text-white"
-        aria-label="Открыть меню"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+        <!-- CTA Button -->
+        <a
+          href="https://t.me/your_bot"
+          target="_blank"
+          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-500 text-white rounded-full font-medium text-sm transition-all hover:shadow-lg hover:shadow-primary-500/25"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+          </svg>
+          Открыть бота
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden p-2 text-dark-600 dark:text-dark-300 hover:text-dark-900 dark:hover:text-white"
+          aria-label="Открыть меню"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-dark-900 border-t border-white/5">
+  <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-dark-900 border-t border-dark-200 dark:border-white/5">
     <div class="px-4 py-4 space-y-2">
       {navItems.map((item) => (
         <a
           href={item.href}
-          class="block px-4 py-2 text-dark-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+          class="block px-4 py-2 text-dark-600 dark:text-dark-300 hover:text-dark-900 dark:hover:text-white hover:bg-dark-100 dark:hover:bg-white/5 rounded-lg transition-colors"
         >
           {item.label}
         </a>
@@ -86,7 +105,9 @@ const navItems = [
 <script>
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  const themeToggle = document.getElementById('theme-toggle');
 
+  // Mobile menu toggle
   menuBtn?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');
   });
@@ -96,5 +117,30 @@ const navItems = [
     link.addEventListener('click', () => {
       mobileMenu?.classList.add('hidden');
     });
+  });
+
+  // Theme toggle
+  themeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Listen for system preference changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    const stored = localStorage.getItem('theme');
+    if (!stored) {
+      if (e.matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
   });
 </script>
