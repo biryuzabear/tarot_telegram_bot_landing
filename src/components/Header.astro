@@ -13,7 +13,13 @@ const navItems = [
     <div class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-3 group">
-        <img src="/logo.png" alt="Tarot Bot" class="w-12 h-12 object-contain rounded-xl" />
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-950 to-primary-900 p-[2px] relative overflow-hidden">
+          <!-- Gradient border -->
+          <div class="absolute inset-0 bg-gradient-to-br from-primary-400 via-primary-500 to-gold-400 opacity-60 rounded-xl"></div>
+          <div class="relative w-full h-full bg-gradient-to-br from-primary-950 to-primary-900 rounded-[10px] flex items-center justify-center">
+            <img src="/tarot-bot-no-text.svg" alt="Tarot Bot" class="w-12 h-12 brightness-0 invert opacity-90" />
+          </div>
+        </div>
         <span class="font-display text-xl font-semibold text-white group-hover:text-primary-300 transition-colors">
           Tarot Bot
         </span>
