@@ -2,6 +2,7 @@
 import LegalModal from './LegalModal.astro';
 
 const currentYear = new Date().getFullYear();
+const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/your_bot';
 const supportUrl = import.meta.env.PUBLIC_SUPPORT_URL || 'https://t.me/your_support';
 ---
 
@@ -22,7 +23,7 @@ const supportUrl = import.meta.env.PUBLIC_SUPPORT_URL || 'https://t.me/your_supp
       </p>
 
       <a
-        href="https://t.me/your_bot"
+        href={botUrl}
         target="_blank"
         class="group inline-flex items-center gap-3 px-10 py-5 bg-primary-600 hover:bg-primary-500 text-white rounded-full font-semibold text-xl transition-all hover:shadow-2xl hover:shadow-primary-500/30 hover:scale-105"
       >

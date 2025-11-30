@@ -1,4 +1,6 @@
 ---
+const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/your_bot';
+
 const plans = [
   {
     name: "Бесплатно",
@@ -134,7 +136,7 @@ const plans = [
 
           {/* CTA */}
           <a
-            href="https://t.me/your_bot"
+            href={botUrl}
             target="_blank"
             class={`block w-full py-3 rounded-full font-medium text-center transition-all ${
               plan.highlight
