@@ -10,7 +10,7 @@
   <rect width="512" height="512" rx="90" fill="url(#bg)"/>
 
   <!-- Simple robot icon - just the face, larger and centered -->
-  <g transform="translate(256, 280) scale(3.5)">
+  <g transform="translate(256, 280) scale(4.2)">
     <!-- Robot head/body -->
     <rect x="-40" y="-35" width="80" height="70" rx="12" fill="none" stroke="#ffffff" stroke-width="4"/>
 
