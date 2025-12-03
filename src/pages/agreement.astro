@@ -1,0 +1,117 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/tarot_online_robot';
+---
+
+<Layout
+  title="Условия использования — Tarot Robot"
+  description="Условия использования Telegram-бота Tarot Robot. Краткая информация о сервисе и ссылки на полные документы."
+>
+  <main class="min-h-screen bg-dark-950 flex items-center justify-center">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-500/20 mb-6">
+          <svg class="w-8 h-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h1 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
+          Условия использования
+        </h1>
+        <p class="text-dark-400">
+          Tarot Robot | Таро Робот
+        </p>
+      </div>
+
+      <div class="bg-dark-900/50 border border-white/5 rounded-2xl p-6 sm:p-8 mb-8">
+        <p class="text-dark-200 mb-6">
+          Нажимая кнопку «Старт» (Start или /start) и пользуясь данным ботом
+          (<a href={botUrl} target="_blank" class="text-primary-400 hover:text-primary-300">{botUrl}</a>),
+          вы даёте согласие на обработку персональных данных и подтверждаете своё согласие с:
+        </p>
+
+        <div class="space-y-3 mb-8">
+          <a href="/terms" class="flex items-center gap-3 p-4 bg-dark-800/50 hover:bg-dark-800 rounded-xl transition-colors group">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
+              <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <p class="text-white font-medium group-hover:text-primary-400 transition-colors">Пользовательское соглашение</p>
+              <p class="text-dark-400 text-sm">Полные условия использования сервиса</p>
+            </div>
+            <svg class="w-5 h-5 text-dark-500 group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <a href="/privacy" class="flex items-center gap-3 p-4 bg-dark-800/50 hover:bg-dark-800 rounded-xl transition-colors group">
+            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
+              <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <p class="text-white font-medium group-hover:text-primary-400 transition-colors">Политика конфиденциальности</p>
+              <p class="text-dark-400 text-sm">Как мы обрабатываем ваши данные</p>
+            </div>
+            <svg class="w-5 h-5 text-dark-500 group-hover:text-primary-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-dark-300 text-sm leading-relaxed">
+        <p>
+          Сервис предназначен для пользователей <strong class="text-white">старше 18 лет</strong> и может
+          использоваться исключительно в <strong class="text-white">информационно-развлекательных целях</strong>.
+        </p>
+
+        <p>
+          Сервис использует технологии искусственного интеллекта для генерации ответов на запросы пользователей.
+          Ответы и иные материалы, создаваемые с использованием технологий искусственного интеллекта, не являются
+          выражением чьего-либо мнения, позицией администрации или утверждением о фактах.
+        </p>
+
+        <p>
+          Ответы ни при каких обстоятельствах не могут рассматриваться как руководство к действию или совет
+          при принятии решений.
+        </p>
+
+        <p>
+          Сервис не является заменой или подменой квалифицированной медицинской, юридической, психологической
+          или иной профессиональной помощи.
+        </p>
+
+        <div class="bg-gold-500/10 border border-gold-500/20 rounded-lg p-4 mt-6">
+          <p class="text-gold-300 font-medium mb-1">Обратите внимание</p>
+          <p class="text-dark-200">
+            Искусственный интеллект может ошибаться — проверяйте важную информацию.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center">
+        <a
+          href={botUrl}
+          target="_blank"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-500 text-white rounded-full font-medium transition-all hover:shadow-lg hover:shadow-primary-500/30"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+          </svg>
+          Открыть бота
+        </a>
+
+        <p class="mt-4">
+          <a href="/" class="text-dark-400 hover:text-white transition-colors text-sm">
+            Вернуться на главную
+          </a>
+        </p>
+      </div>
+    </div>
+  </main>
+</Layout>
