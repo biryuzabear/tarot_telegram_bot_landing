@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 
 const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/tarot_online_robot';
+const agreementUrl = import.meta.env.PUBLIC_AGREEMENT_URL || '/agreement';
 ---
 
 <Layout
@@ -414,8 +415,8 @@ const botUrl = import.meta.env.PUBLIC_BOT_URL || 'https://t.me/tarot_online_robo
         </p>
 
         <p class="text-dark-500 mt-8">
-          Актуальная версия Соглашения в свободном доступе расположена по адресу:
-          <a href="/terms">{Astro.url.origin}/terms</a>
+          Актуальные версии правовых документов доступны по адресу:
+          <a href={agreementUrl}>{agreementUrl.replace(/^https?:\/\/(www\.)?/, '')}</a>
         </p>
       </div>
     </div>

@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 
 const supportUrl = import.meta.env.PUBLIC_SUPPORT_URL || 'https://t.me/your_support';
+const agreementUrl = import.meta.env.PUBLIC_AGREEMENT_URL || '/agreement';
 ---
 
 <Layout
@@ -222,8 +223,8 @@ const supportUrl = import.meta.env.PUBLIC_SUPPORT_URL || 'https://t.me/your_supp
           Оператором. Политика действует бессрочно до замены её новой версией.
         </p>
         <p>
-          Актуальная версия Политики в свободном доступе расположена в сети Интернет по адресу
-          <a href="/privacy">{Astro.url.origin}/privacy</a>.
+          Актуальные версии правовых документов доступны по адресу
+          <a href={agreementUrl}>{agreementUrl.replace(/^https?:\/\/(www\.)?/, '')}</a>.
         </p>
       </div>
     </div>
